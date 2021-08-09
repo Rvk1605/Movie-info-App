@@ -1,12 +1,16 @@
 
-import { ADD_MOVIES , ADD_FAVOURITE,REMOVE_FAVOURITE,SET_SHOW_FAVOURITES } from "../actions";
+import { combineReducers } from "redux";
+import { ADD_MOVIES , ADD_FAVOURITE , REMOVE_FAVOURITE , SET_SHOW_FAVOURITES , ADD_SEARCH_RESULT, ADD_MOVIE_TO_LIST } from "../actions";
 
 const initialMoviesState = {
     list:[],
     favourites:[],
     showFavourites:false
 }
-export default function movies(state=initialMoviesState,action){
+
+//Movies Reducer
+
+export function movies(state=initialMoviesState,action){
     // if(action.type === ADD_MOVIES){  //We should avoid String Comparison by storing the string in a variable 
     //     //This is reusable as well as efficient
 
@@ -52,8 +56,59 @@ export default function movies(state=initialMoviesState,action){
                 ...state,
                 showFavourites:action.val
             }
+        case ADD_MOVIE_TO_LIST:
+            return {
+                ...state,
+                list:[action.movie, ...state.list]
+            };
         default:
             return state;
         }
 }
 
+
+//Search Reducer
+
+const initialSearchState = {
+    result:{},
+    showSearchResults:false
+};
+
+export function search(state=initialSearchState,action){
+    switch(action.type){
+        case ADD_SEARCH_RESULT :
+        return{
+            ...state,
+            result:action.movie,
+            showSearchResults:true,
+        }
+        case ADD_MOVIE_TO_LIST:
+            return{
+                ...state,
+            showSearchResults:false,
+            }
+    default:
+    return state;
+    }
+}
+
+//Root Reducer which will manage all other Reducers
+
+// const initialRootState = {
+//     movies:initialMoviesState,
+//     search:initialMoviesState
+// };
+
+// export default function rootReducer(state=initialRootState,action){
+//     return {
+//         movies:movies(state.movies,action),
+//         search:search(state.search,action)
+//     };
+// }
+
+//Above method to combine reducer is alredy created by redux
+
+export default combineReducers({
+    movies:movies,  //here we only pass reducer name or in short hand just movies,search
+    search:search
+})

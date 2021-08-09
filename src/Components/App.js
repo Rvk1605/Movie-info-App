@@ -26,8 +26,9 @@ class App extends React.Component {
   }
    
   isMovieFavourite = (movie)=>{
-    const {favourites} = this.props.store.getState();
-    const index = favourites.indexOf(movie);
+    const {movies} = this.props.store.getState();
+
+    const index = movies.favourites.indexOf(movie);
     if(index!==-1){
       //Movie Found
        return true;
@@ -41,12 +42,13 @@ class App extends React.Component {
   
   render(){
     console.log("Render");
-      const {list,favourites,showFavourites} = this.props.store.getState(); //Destructuring will help to store list [] in list 
-       //this.props will contain the store passed to it , { list:[] ,favourites :[] }
+      const {movies,search}=this.props.store.getState(); //{ movies:{} , search:{} }
+      const {list,favourites,showFavourites} = movies; //Destructuring will help to store list [] in list 
+       //this.props will contain the store passed to it , 
        const displayMovies = showFavourites? favourites:list 
       return (
         <div className="App">
-          <Navbar/>
+          <Navbar dispatch={this.props.store.dispatch}  search={search}/>
           <div className="main">
             <div className="tabs">
               <div className={`tab ${showFavourites ? '':'active-tabs'}`} onClick = {()=>{this.onChangeTab(false)}}>Movies</div>

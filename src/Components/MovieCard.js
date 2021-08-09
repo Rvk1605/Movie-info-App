@@ -29,7 +29,7 @@ class MovieCard extends React.Component{
                     <div className="title">{movie.Title}</div>
                     <div className="plot">{movie.Plot}</div>
                     <div className="footer">
-                        <div className="rating"> <img src="" alt="" /> {movie.imdbRating}</div>
+                        <div className="rating"> <img src="" alt="" /> <img className="imdb-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/IMDB_Logo_2016.svg/2560px-IMDB_Logo_2016.svg.png" alt="" /> : {movie.imdbRating}</div>
                         {
                             isFavourite? <button className="unfavourite-btn" onClick={this.handleUnfavouriteClick}>Unfavourite</button>
                                          :<button className="favourite-btn" onClick={this.handleFavouriteClick}>Favourite</button>
